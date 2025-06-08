@@ -1,3 +1,5 @@
+import fs from 'fs';
+
 export default {
   /*
    * returns text of converted Object into CSV 
@@ -18,4 +20,15 @@ export default {
 
     return text;
   },
+
+  /*
+   * Creates a new file called data.csv
+   * @param {Object[]} data - Object array to convert into CSV
+   *
+   * */
+  exportFile(data) {
+    fs.mkdir('./build');
+    const text = this.convertData(data);
+    fs.writeFile('build/data.csv', text);
+  }
 }

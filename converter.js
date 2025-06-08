@@ -24,11 +24,18 @@ export default {
   /*
    * Creates a new file called data.csv
    * @param {Object[]} data - Object array to convert into CSV
+   * @param {string} extension - extension of exported file options ['csv', 'xlsx']
    *
    * */
-  exportFile(data) {
+  exportFile(data, extension) {
     if (!fs.existsSync('./build')) fs.mkdirSync('./build'); // create dir if doesn't exist
-    fs.writeFileSync('build/data.csv', this.convertData(data));
+
+    let ext =
+      (extension.toLowerCase() == 'csv' || extension.toLowerCase() == 'xlsx')
+        ? extension.toLowerCase()
+        : 'csv';
+
+    fs.writeFileSync(`build/data.${ext}`, this.convertData(data));
 
     console.log('build/data.csv created successfully✅'); // completion message
   }

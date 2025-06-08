@@ -27,8 +27,9 @@ export default {
    *
    * */
   exportFile(data) {
-    fs.mkdir('./build');
-    const text = this.convertData(data);
-    fs.writeFile('build/data.csv', text);
+    if (!fs.existsSync('./build')) fs.mkdirSync('./build'); // create dir if doesn't exist
+    fs.writeFileSync('build/data.csv', this.convertData(data));
+
+    console.log('build/data.csv created successfully✅'); // completion message
   }
 }

@@ -5,10 +5,9 @@ const app = express();
 app.use(express.json());
 
 app.post('/api/convert', (req, res) => {
-  const csvData = convertData(req.body); // your conversion logic
+  const csvData = convertData(JSON.parse(req.body)); // your conversion logic
 
-  res.setHeader('Content-Type', 'text/csv');
-  res.setHeader('Content-Disposition', 'attachment; filename="data.csv"');
+  res.setHeader('Content-Type', 'text/plain');
   res.send(csvData);
 })
 

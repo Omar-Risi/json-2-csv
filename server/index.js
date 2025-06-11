@@ -1,14 +1,13 @@
-import { convertData } from "./converter.js";
-import express from 'express';
 const express = require('express');
 const cors = require('cors');
+const converter = require('./converter.js');
 
 const app = express();
 app.use(express.json());
 app.use(cors())
 
 app.post('/api/convert', (req, res) => {
-  const csvData = convertData(JSON.parse(req.body)); // your conversion logic
+  const csvData = converter.convertData(JSON.parse(req.body)); // your conversion logic
 
   res.setHeader('Content-Type', 'text/plain');
   res.send(csvData);

@@ -4,18 +4,20 @@ const converter = require('./converter.js');
 
 const app = express();
 
-app.use(express.json());
 app.use(cors())
+app.use(express.json())
 
 app.get('/', (req, res) => {
   res.send('OK');
 })
 
 app.post('/api/convert', (req, res) => {
-  const csvData = converter.convertData(JSON.parse(req.body)); // your conversion logic
-
-  res.setHeader('Content-Type', 'text/plain');
-  res.send(csvData);
+  try {
+    const csvData = converter.convertData([req.body.data]);
+    res.send(csvData);
+  } catch (e) {
+    res.send(`API Error: ${e}`, 400);
+  }
 })
 
 app.listen(3300, () => {

@@ -1,10 +1,10 @@
-export default {
+module.exports = {
   /*
    * returns text of converted Object into CSV 
    * @param {Object[]} data - Object array to convert into csv
    * */
   convertData(data) {
-    if (!data[0]) throw new Error("Expected array of objects for argument 'data' "); // stop function if no array provided 
+    if (!data[0]) throw new Error(`Expected array of objects for argument 'data'  instead got '${data}'`); // stop function if no array provided 
     let text = "";
     Object.keys(data[0]).forEach(key => {
       text += `${key}, `;

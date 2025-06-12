@@ -2,7 +2,9 @@ import { useState } from "react";
 
 function App() {
 
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState('{}');
+
+  const DUMMY_DATA = { name: "Omar", age: 15 }
 
 
   const validateJSON = (data) => {
@@ -22,17 +24,24 @@ function App() {
 
     e.preventDefault();
 
-    try {
-      const res = await fetch('http://localhost:3300/');
     if (!validateJSON(input)) {
-      console.log('Invalid JSON!'); // Add incorrect input notification
+      console.log('client: Invalid JSON!\n', input); // Add invalid input notification
       return;
     }
 
-      const data = await res.text();
-      console.log(data)
+    try {
+      const res = await fetch('http://localhost:3300/api/convert', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ data: DUMMY_DATA }),
+      });
+
+      const result = await res.text();
+      console.log(result)
     } catch (e) {
-      console.error('Error: ', e)
+      console.error('error: ', e)
     }
   }
 

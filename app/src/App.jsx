@@ -5,6 +5,15 @@ function App() {
   const [input, setInput] = useState('');
 
 
+  const validateJSON = (data) => {
+    try {
+      JSON.parse(data);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+
   const handleChange = (e) => {
     setInput(e.target.value);
   }
@@ -15,6 +24,10 @@ function App() {
 
     try {
       const res = await fetch('http://localhost:3300/');
+    if (!validateJSON(input)) {
+      console.log('Invalid JSON!'); // Add incorrect input notification
+      return;
+    }
 
       const data = await res.text();
       console.log(data)

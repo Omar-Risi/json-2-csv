@@ -5,9 +5,6 @@ function App() {
   const [input, setInput] = useState('{}');
   const [output, setOutput] = useState("");
 
-  const DUMMY_DATA = { name: "Omar", age: 15 }
-
-
   const validateJSON = (data) => {
     try {
       JSON.parse(data);
@@ -47,6 +44,32 @@ function App() {
     }
   }
 
+  const handleDownload = () => {
+    if (!output) {
+      console.log('No data to download');
+      return;
+    }
+
+    // Create a Blob with the CSV data
+    const blob = new Blob([output], { type: 'text/csv;charset=utf-8;' });
+
+    // Create a temporary URL for the blob
+    const url = URL.createObjectURL(blob);
+
+    // Create a temporary anchor element and trigger download
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'converted-data.csv';
+
+    // Append to body, click, and remove
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+
+    // Clean up the URL object
+    URL.revokeObjectURL(url);
+  }
+
   return (
     <>
       <main className="flex justify-center items-center flex-col h-screen">
@@ -63,9 +86,7 @@ function App() {
                 {output}
               </p>
             </div>
-            <div className="w-full flex justify-end">
-              <button className="mt-4 w-1/2 py-2 text-center bg-blue-600 text-white rounded-md font-medium uppercase hover:bg-blue-500 cursor-pointer"> Download CSV file </button>
-            </div>
+            <button className="mt-4 py-2 text-center bg-blue-600 text-white rounded-md font-medium uppercase hover:bg-blue-500 cursor-pointer" onClick={handleDownload}> Download CSV file </button>
           </div>
         </div>
 

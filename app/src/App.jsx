@@ -3,6 +3,7 @@ import { useState } from "react";
 function App() {
 
   const [input, setInput] = useState('{}');
+  const [output, setOutput] = useState("");
 
   const DUMMY_DATA = { name: "Omar", age: 15 }
 
@@ -30,16 +31,17 @@ function App() {
     }
 
     try {
+      const parsedInput = JSON.parse(input)
       const res = await fetch('http://localhost:3300/api/convert', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ data: DUMMY_DATA }),
+        body: JSON.stringify({ data: parsedInput }),
       });
 
       const result = await res.text();
-      console.log(result)
+      setOutput(result)
     } catch (e) {
       console.error('error: ', e)
     }
@@ -58,7 +60,7 @@ function App() {
             <p className="font-medium">Output: </p>
             <div className="bg-gray-100 border border-gray-300 flex-1 p-2 overflow-y-scroll">
               <p>
-                output should be here
+                {output}
               </p>
             </div>
             <div className="w-full flex justify-end">
